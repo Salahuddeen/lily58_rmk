@@ -1,46 +1,250 @@
+# Mechboards Lily58 Pro R2G
+# Miryoku (Colemak-DH, UK symbols) plus a GlazeWM layer.
+# The color screens, WS2812 matrix, backlight, and the two switches beside the
+# screens are not driven here. Plug USB into the left half.
 # Documentation: https://rmk.rs/docs/configuration/
+
 [keyboard]
-name = "RMK Keyboard"
-product_name = "RMK Keyboard"
-vendor_id = 0x4c4b
-product_id = 0x4643
-manufacturer = "RMK"
+name = "Lily58 Pro R2G"
+product_name = "Lily58 Pro R2G"
+manufacturer = "Mechboards"
+vendor_id = 0x7171
+product_id = 0x0012
+serial_number = "vial:lily58r2g:000001"
 chip = "rp2040"
 
-[matrix]
-# Row and col pins are mandatory
-row_pins = ["PIN_6", "PIN_7", "PIN_8", "PIN_9"]
-col_pins = ["PIN_19", "PIN_20", "PIN_21"]
-# RMK uses col2row as the default matrix diode direction, if you want to use a row2col matrix, add `row2col = true`
-# row2col = true
+[rmk]
+morse_max_num = 16
+max_patterns_per_key = 8
+
+[split]
+connection = "serial"
+
+[split.central]
+rows = 5
+cols = 6
+row_offset = 0
+col_offset = 0
+# QMK swaps TX/RX on the USB half only, so a straight TRRS cable works.
+serial = [{ instance = "PIO0", tx_pin = "PIN_27", rx_pin = "PIN_26" }]
+
+[split.central.matrix]
+row2col = true
+row_pins = ["PIN_23", "PIN_21", "PIN_19", "PIN_2", "PIN_1"]
+col_pins = ["PIN_3", "PIN_4", "PIN_18", "PIN_20", "PIN_22", "PIN_24"]
+bootmagic = [0, 5]
+
+[[split.peripheral]]
+rows = 5
+cols = 6
+row_offset = 5
+col_offset = 0
+serial = [{ instance = "PIO0", tx_pin = "PIN_26", rx_pin = "PIN_27" }]
+
+[split.peripheral.matrix]
+row2col = true
+row_pins = ["PIN_22", "PIN_20", "PIN_18", "PIN_2", "PIN_4"]
+col_pins = ["PIN_24", "PIN_21", "PIN_19", "PIN_1", "PIN_3", "PIN_23"]
+bootmagic = [0, 0]
 
 [layout]
-rows = 4
-cols = 3
+rows = 10
+cols = 6
 map = """
-(0,0)  (0,1)  (0,2)
-(1,0)  (1,1)  (1,2)
-(2,0)  (2,1)  (2,2)
-(3,0)  (3,1)  (3,2)
+(0,5) (0,4) (0,3) (0,2) (0,1) (0,0)   (5,5) (5,4) (5,3) (5,2) (5,1) (5,0)
+(1,5) (1,4) (1,3) (1,2) (1,1) (1,0)   (6,5) (6,4) (6,3) (6,2) (6,1) (6,0)
+(2,5) (2,4) (2,3) (2,2) (2,1) (2,0)   (7,5) (7,4) (7,3) (7,2) (7,1) (7,0)
+(3,5) (3,4) (3,3) (3,2) (3,1) (3,0) (4,0)   (9,5) (8,5) (8,4) (8,3) (8,2) (8,1) (8,0)
+(4,4) (4,3) (4,2) (4,1)   (9,4) (9,3) (9,2) (9,1)
+(4,5) (9,0)
 """
+
+[behavior.morse]
+enable_flow_tap = true
+prior_idle_time = "120ms"
+permissive_hold = true
+hold_timeout = "200ms"
+gap_timeout = "200ms"
+quick_tap_timeout = "0ms"
+morses = [
+    { tap = "No", double_tap = "Bootloader", profile = "MRZ" },
+    { tap = "No", double_tap = "PDF(base)", profile = "MRZ" },
+    { tap = "No", double_tap = "PDF(extra)", profile = "MRZ" },
+    { tap = "No", double_tap = "PDF(tap)", profile = "MRZ" },
+    { tap = "No", double_tap = "PDF(nav)", profile = "MRZ" },
+    { tap = "No", double_tap = "PDF(mouse)", profile = "MRZ" },
+    { tap = "No", double_tap = "PDF(media)", profile = "MRZ" },
+    { tap = "No", double_tap = "PDF(num)", profile = "MRZ" },
+    { tap = "No", double_tap = "PDF(sym)", profile = "MRZ" },
+    { tap = "No", double_tap = "PDF(fun)", profile = "MRZ" },
+]
+
+[behavior.morse.profiles]
+HRM = { permissive_hold = true, hold_timeout = "200ms", gap_timeout = "200ms" }
+THUMB = { enable_flow_tap = false, permissive_hold = true, hold_timeout = "200ms", gap_timeout = "200ms" }
+MRZ = { normal_mode = true, hold_timeout = "200ms", gap_timeout = "200ms", quick_tap_timeout = "0ms" }
+
+[aliases]
+UkTilde = "WM(Backslash, LShift)"
+UkAt = "WM(Quote, LShift)"
+UkHash = "Backslash"
+UkPipe = "WM(NonusBackslash, LShift)"
+UkBsls = "NonusBackslash"
+Excl = "WM(Kc1, LShift)"
+Dollar = "WM(Kc4, LShift)"
+Perc = "WM(Kc5, LShift)"
+Caret = "WM(Kc6, LShift)"
+Amp = "WM(Kc7, LShift)"
+Star = "WM(Kc8, LShift)"
+LParen = "WM(Kc9, LShift)"
+RParen = "WM(Kc0, LShift)"
+Under = "WM(Minus, LShift)"
+Plus = "WM(Equal, LShift)"
+LBrace = "WM(LeftBracket, LShift)"
+RBrace = "WM(RightBracket, LShift)"
+Colon = "WM(Semicolon, LShift)"
+Paste = "WM(Insert, LShift)"
+Copy = "WM(Insert, LCtrl)"
+Cut = "WM(Delete, LShift)"
+Alt1 = "WM(Kc1, LAlt)"
+Alt2 = "WM(Kc2, LAlt)"
+Alt3 = "WM(Kc3, LAlt)"
+Alt4 = "WM(Kc4, LAlt)"
+Alt5 = "WM(Kc5, LAlt)"
+Alt6 = "WM(Kc6, LAlt)"
+Alt7 = "WM(Kc7, LAlt)"
+Alt8 = "WM(Kc8, LAlt)"
+Alt9 = "WM(Kc9, LAlt)"
+AltS1 = "WM(Kc1, LShift | LAlt)"
+AltS2 = "WM(Kc2, LShift | LAlt)"
+AltS3 = "WM(Kc3, LShift | LAlt)"
+AltS4 = "WM(Kc4, LShift | LAlt)"
+AltS5 = "WM(Kc5, LShift | LAlt)"
+AltS6 = "WM(Kc6, LShift | LAlt)"
+AltS7 = "WM(Kc7, LShift | LAlt)"
+AltS8 = "WM(Kc8, LShift | LAlt)"
+AltS9 = "WM(Kc9, LShift | LAlt)"
 
 [keymap]
-# One more layer than is defined below: the keymap references layer 2
-# (LT(2, ...), TG(2)), which stays empty until the user fills it in.
-layers = 3
+layers = 16
 
-[[keymap.layer]] # layer 0
+[[keymap.layer]]
+name = "base"
 keys = """
-A       B           C
-Kc1     Kc2         Kc3
-LCtrl   MO(1)       LShift
-OSL(1)  LT(2, Kc9)  LM(1, LShift | LGui)
+Escape Kc1 Kc2 Kc3 Kc4 Kc5  Kc6 Kc7 Kc8 Kc9 Kc0 Grave
+Tab Q W F P B  J L U Y Quote Minus
+MT(Escape, LCtrl, HRM) MT(A, LGui, HRM) MT(R, LAlt, HRM) MT(S, LCtrl, HRM) MT(T, LShift, HRM) G  M MT(N, LShift, HRM) MT(E, LCtrl, HRM) MT(I, LAlt, HRM) MT(O, LGui, HRM) Quote
+LShift LT(button, Z, THUMB) MT(X, RAlt, HRM) C D V LeftBracket  RightBracket K H Comma MT(Dot, RAlt, HRM) LT(button, Slash, THUMB) RShift
+MO(glaze) LT(media, Escape, THUMB) LT(nav, Space, THUMB) LT(mouse, Tab, THUMB)  LT(sym, Enter, THUMB) LT(num, Backspace, THUMB) LT(fun, Delete, THUMB) MO(glaze)
+AudioMute MediaPlayPause
 """
 
-[[keymap.layer]] # layer 1
+[[keymap.layer]]
+name = "extra"
 keys = """
-_  TT(1)  TG(2)
-_  _      _
-_  _      _
-_  _      _
+Escape Kc1 Kc2 Kc3 Kc4 Kc5  Kc6 Kc7 Kc8 Kc9 Kc0 Grave
+Tab Q W E R T  Y U I O P Minus
+MT(Escape, LCtrl, HRM) MT(A, LGui, HRM) MT(S, LAlt, HRM) MT(D, LCtrl, HRM) MT(F, LShift, HRM) G  H MT(J, LShift, HRM) MT(K, LCtrl, HRM) MT(L, LAlt, HRM) MT(Quote, LGui, HRM) Quote
+LShift LT(button, Z, THUMB) MT(X, RAlt, HRM) C V B LeftBracket  RightBracket N M Comma MT(Dot, RAlt, HRM) LT(button, Slash, THUMB) RShift
+MO(glaze) LT(media, Escape, THUMB) LT(nav, Space, THUMB) LT(mouse, Tab, THUMB)  LT(sym, Enter, THUMB) LT(num, Backspace, THUMB) LT(fun, Delete, THUMB) MO(glaze)
+AudioMute MediaPlayPause
+"""
+
+[[keymap.layer]]
+name = "tap"
+keys = """
+Escape Kc1 Kc2 Kc3 Kc4 Kc5  Kc6 Kc7 Kc8 Kc9 Kc0 Grave
+Tab Q W F P B  J L U Y Quote Minus
+MT(Escape, LCtrl, HRM) A R S T G  M N E I O Quote
+LShift Z X C D V LeftBracket  RightBracket K H Comma Dot Slash RShift
+MO(glaze) Escape Space Tab  Enter Backspace Delete MO(glaze)
+AudioMute MediaPlayPause
+"""
+
+[[keymap.layer]]
+name = "button"
+keys = """
+_ _ _ _ _ _  _ _ _ _ _ _
+_ Undo Cut @Copy @Paste Again  Again @Paste @Copy Cut Undo _
+_ LGui LAlt LCtrl LShift No  No LShift LCtrl LAlt LGui _
+_ Undo Cut @Copy @Paste Again _  _ Again @Paste @Copy Cut Undo _
+_ MouseBtn3 MouseBtn1 MouseBtn2  MouseBtn2 MouseBtn1 MouseBtn3 _
+_ _
+"""
+
+[[keymap.layer]]
+name = "nav"
+keys = """
+_ _ _ _ _ _  _ _ _ _ _ _
+_ TD(0) TD(3) TD(2) TD(1) No  Again @Paste @Copy @Cut Undo _
+_ LGui LAlt LCtrl LShift No  CapsWordToggle Left Down Up Right _
+_ No RAlt TD(7) TD(4) No _  _ Insert Home PageDown PageUp End _
+_ No No No  Enter Backspace Delete _
+_ _
+"""
+
+[[keymap.layer]]
+name = "mouse"
+keys = """
+_ _ _ _ _ _  _ _ _ _ _ _
+_ TD(0) TD(3) TD(2) TD(1) No  Again @Paste @Copy @Cut Undo _
+_ LGui LAlt LCtrl LShift No  No MouseLeft MouseDown MouseUp MouseRight _
+_ No RAlt TD(8) TD(5) No _  _ No MouseWheelLeft MouseWheelDown MouseWheelUp MouseWheelRight _
+_ No No No  MouseBtn2 MouseBtn1 MouseBtn3 _
+_ _
+"""
+
+[[keymap.layer]]
+name = "media"
+keys = """
+_ _ _ _ _ _  _ _ _ _ _ _
+_ TD(0) TD(3) TD(2) TD(1) No  No No No No No _
+_ LGui LAlt LCtrl LShift No  No MediaPrevTrack AudioVolDown AudioVolUp MediaNextTrack _
+_ No RAlt TD(9) TD(6) No _  _ No No No No No _
+_ No No No  MediaStop MediaPlayPause AudioMute _
+_ _
+"""
+
+[[keymap.layer]]
+name = "num"
+keys = """
+_ _ _ _ _ _  _ _ _ _ _ _
+_ LeftBracket Kc7 Kc8 Kc9 RightBracket  No TD(1) TD(2) TD(3) TD(0) _
+_ Semicolon Kc4 Kc5 Kc6 Equal  No LShift LCtrl LAlt LGui _
+_ Grave Kc1 Kc2 Kc3 @UkBsls _  _ No TD(7) TD(4) RAlt No _
+_ Dot Kc0 Minus  _ _ _ _
+_ _
+"""
+
+[[keymap.layer]]
+name = "sym"
+keys = """
+_ _ _ _ _ _  _ _ _ _ _ _
+_ @LBrace @Amp @Star @LParen @RBrace  No TD(1) TD(2) TD(3) TD(0) _
+_ @Colon @Dollar @Perc @Caret @Plus  No LShift LCtrl LAlt LGui _
+_ @UkTilde @Excl @UkAt @UkHash @UkPipe _  _ No TD(8) TD(5) RAlt No _
+_ @LParen @RParen @Under  _ _ _ _
+_ _
+"""
+
+[[keymap.layer]]
+name = "fun"
+keys = """
+_ _ _ _ _ _  _ _ _ _ _ _
+_ F12 F7 F8 F9 PrintScreen  No TD(1) TD(2) TD(3) TD(0) _
+_ F11 F4 F5 F6 ScrollLock  No LShift LCtrl LAlt LGui _
+_ F10 F1 F2 F3 Pause _  _ No TD(9) TD(6) RAlt No _
+_ Application Space Tab  _ _ _ _
+_ _
+"""
+
+[[keymap.layer]]
+name = "glaze"
+keys = """
+_ _ _ _ _ _  _ _ _ _ _ _
+_ _ _ _ _ _  _ _ _ _ _ _
+_ @AltS1 @AltS2 @AltS3 @AltS4 @AltS5  @AltS6 @AltS7 @AltS8 @AltS9 _ _
+_ @Alt1 @Alt2 @Alt3 @Alt4 @Alt5 _  _ @Alt6 @Alt7 @Alt8 @Alt9 _ _
+_ _ _ _  _ _ _ _
+_ _
 """
