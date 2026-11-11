@@ -59,6 +59,8 @@ map = """
 (4,5) (9,0)
 """
 
+# Layer actions use indexes. 0 base, 1 extra, 2 tap, 3 button, 4 nav,
+# 5 mouse, 6 media, 7 num, 8 sym, 9 fun, 10 glaze.
 [behavior.morse]
 enable_flow_tap = true
 prior_idle_time = "120ms"
@@ -68,15 +70,15 @@ gap_timeout = "200ms"
 quick_tap_timeout = "0ms"
 morses = [
     { tap = "No", double_tap = "Bootloader", profile = "MRZ" },
-    { tap = "No", double_tap = "PDF(base)", profile = "MRZ" },
-    { tap = "No", double_tap = "PDF(extra)", profile = "MRZ" },
-    { tap = "No", double_tap = "PDF(tap)", profile = "MRZ" },
-    { tap = "No", double_tap = "PDF(nav)", profile = "MRZ" },
-    { tap = "No", double_tap = "PDF(mouse)", profile = "MRZ" },
-    { tap = "No", double_tap = "PDF(media)", profile = "MRZ" },
-    { tap = "No", double_tap = "PDF(num)", profile = "MRZ" },
-    { tap = "No", double_tap = "PDF(sym)", profile = "MRZ" },
-    { tap = "No", double_tap = "PDF(fun)", profile = "MRZ" },
+    { tap = "No", double_tap = "PDF(0)", profile = "MRZ" },
+    { tap = "No", double_tap = "PDF(1)", profile = "MRZ" },
+    { tap = "No", double_tap = "PDF(2)", profile = "MRZ" },
+    { tap = "No", double_tap = "PDF(4)", profile = "MRZ" },
+    { tap = "No", double_tap = "PDF(5)", profile = "MRZ" },
+    { tap = "No", double_tap = "PDF(6)", profile = "MRZ" },
+    { tap = "No", double_tap = "PDF(7)", profile = "MRZ" },
+    { tap = "No", double_tap = "PDF(8)", profile = "MRZ" },
+    { tap = "No", double_tap = "PDF(9)", profile = "MRZ" },
 ]
 
 [behavior.morse.profiles]
@@ -134,8 +136,8 @@ keys = """
 Escape Kc1 Kc2 Kc3 Kc4 Kc5  Kc6 Kc7 Kc8 Kc9 Kc0 Grave
 Tab Q W F P B  J L U Y Quote Minus
 MT(Escape, LCtrl, HRM) MT(A, LGui, HRM) MT(R, LAlt, HRM) MT(S, LCtrl, HRM) MT(T, LShift, HRM) G  M MT(N, LShift, HRM) MT(E, LCtrl, HRM) MT(I, LAlt, HRM) MT(O, LGui, HRM) Quote
-LShift LT(button, Z, THUMB) MT(X, RAlt, HRM) C D V LeftBracket  RightBracket K H Comma MT(Dot, RAlt, HRM) LT(button, Slash, THUMB) RShift
-MO(glaze) LT(media, Escape, THUMB) LT(nav, Space, THUMB) LT(mouse, Tab, THUMB)  LT(sym, Enter, THUMB) LT(num, Backspace, THUMB) LT(fun, Delete, THUMB) MO(glaze)
+LShift LT(3, Z, THUMB) MT(X, RAlt, HRM) C D V LeftBracket  RightBracket K H Comma MT(Dot, RAlt, HRM) LT(3, Slash, THUMB) RShift
+MO(10) LT(6, Escape, THUMB) LT(4, Space, THUMB) LT(5, Tab, THUMB)  LT(8, Enter, THUMB) LT(7, Backspace, THUMB) LT(9, Delete, THUMB) MO(10)
 AudioMute MediaPlayPause
 """
 
@@ -145,8 +147,8 @@ keys = """
 Escape Kc1 Kc2 Kc3 Kc4 Kc5  Kc6 Kc7 Kc8 Kc9 Kc0 Grave
 Tab Q W E R T  Y U I O P Minus
 MT(Escape, LCtrl, HRM) MT(A, LGui, HRM) MT(S, LAlt, HRM) MT(D, LCtrl, HRM) MT(F, LShift, HRM) G  H MT(J, LShift, HRM) MT(K, LCtrl, HRM) MT(L, LAlt, HRM) MT(Quote, LGui, HRM) Quote
-LShift LT(button, Z, THUMB) MT(X, RAlt, HRM) C V B LeftBracket  RightBracket N M Comma MT(Dot, RAlt, HRM) LT(button, Slash, THUMB) RShift
-MO(glaze) LT(media, Escape, THUMB) LT(nav, Space, THUMB) LT(mouse, Tab, THUMB)  LT(sym, Enter, THUMB) LT(num, Backspace, THUMB) LT(fun, Delete, THUMB) MO(glaze)
+LShift LT(3, Z, THUMB) MT(X, RAlt, HRM) C V B LeftBracket  RightBracket N M Comma MT(Dot, RAlt, HRM) LT(3, Slash, THUMB) RShift
+MO(10) LT(6, Escape, THUMB) LT(4, Space, THUMB) LT(5, Tab, THUMB)  LT(8, Enter, THUMB) LT(7, Backspace, THUMB) LT(9, Delete, THUMB) MO(10)
 AudioMute MediaPlayPause
 """
 
@@ -157,7 +159,7 @@ Escape Kc1 Kc2 Kc3 Kc4 Kc5  Kc6 Kc7 Kc8 Kc9 Kc0 Grave
 Tab Q W F P B  J L U Y Quote Minus
 MT(Escape, LCtrl, HRM) A R S T G  M N E I O Quote
 LShift Z X C D V LeftBracket  RightBracket K H Comma Dot Slash RShift
-MO(glaze) Escape Space Tab  Enter Backspace Delete MO(glaze)
+MO(10) Escape Space Tab  Enter Backspace Delete MO(10)
 AudioMute MediaPlayPause
 """
 
